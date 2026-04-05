@@ -23,35 +23,24 @@ kscreen-doctor -o
 
 Look for your connected display — it will be something like `DP-1`, `DP-2`, `HDMI-A-1`, etc. Note the exact name.
 
-### 3. Configure the output name
+### 3. Install the systemd user service
 
-Edit your copy of `monitor-control.service` and set `MONITOR_OUTPUT` to the name you found:
-
-```ini
-Environment=MONITOR_OUTPUT=DP-1
-```
-
-Or export it in your shell before running manually:
+Run the install script, which detects your active monitor and project path automatically:
 
 ```bash
-MONITOR_OUTPUT=DP-1 python app.py
-```
-
-### 4. Install the systemd user service
-
-```bash
-cp monitor-control.service.example ~/.config/systemd/user/monitor-control.service
-# Edit the file to set WorkingDirectory and ExecStart to your actual install path
+./install.sh
 systemctl --user daemon-reload
-systemctl --user enable --now monitor-control.service
+systemctl --user enable --now shutters.service
 ```
 
 Check it started:
 
 ```bash
-systemctl --user status monitor-control.service
-journalctl --user -u monitor-control.service -f
+systemctl --user status shutters.service
+journalctl --user -u shutters.service -f
 ```
+
+A `shutters.service.example` is also included if you prefer to configure the service manually.
 
 ### 5. Access the app
 

@@ -1,5 +1,5 @@
 [Unit]
-Description=Monitor Control Web App
+Description=Shutters Monitor Control
 After=network.target graphical-session.target
 Wants=graphical-session.target
 
