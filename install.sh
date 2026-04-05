@@ -9,18 +9,26 @@ SERVICE_FILE="$SERVICE_DIR/shutters.service"
 echo "Detecting monitors via kscreen-doctor..."
 KSCREEN_OUTPUT=$(kscreen-doctor -o 2>&1)
 
-# Prefer enabled+connected; fall back to just connected
-MONITOR=$(echo "$KSCREEN_OUTPUT" | awk '/Output:/ && /enabled/ && /connected/ && !/disconnected/ {print $3; exit}')
-if [[ -z "$MONITOR" ]]; then
-    MONITOR=$(echo "$KSCREEN_OUTPUT" | awk '/Output:/ && /connected/ && !/disconnected/ {print $3; exit}')
-fi
+# Collect all connected monitors
+ALL_MONITORS=$(echo "$KSCREEN_OUTPUT" | awk '/Output:/ && /connected/ && !/disconnected/ {print $3}')
 
-if [[ -z "$MONITOR" ]]; then
+if [[ -z "$ALL_MONITORS" ]]; then
     echo "Error: no connected monitor found. Check 'kscreen-doctor -o'." >&2
     exit 1
 fi
 
-echo "Using monitor: $MONITOR"
+MONITOR=$(echo "$ALL_MONITORS" | head -1)
+MONITOR_COUNT=$(echo "$ALL_MONITORS" | wc -l)
+
+if [[ "$MONITOR_COUNT" -gt 1 ]]; then
+    echo "Multiple connected monitors detected:"
+    echo "$ALL_MONITORS" | sed 's/^/  /'
+    echo "Using: $MONITOR"
+    echo "If this is wrong, edit MONITOR_OUTPUT in $HOME/.config/systemd/user/shutters.service"
+    echo ""
+else
+    echo "Using monitor: $MONITOR"
+fi
 
 UID_NUM=$(id -u)
 mkdir -p "$SERVICE_DIR"
