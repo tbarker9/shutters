@@ -5,14 +5,14 @@ Wants=graphical-session.target
 
 [Service]
 Type=simple
-WorkingDirectory=%h/Projects/shutters
-ExecStart=python %h/Projects/shutters/app.py
+WorkingDirectory=%h/path/to/shutters
+ExecStart=%h/path/to/shutters/.venv/bin/python %h/path/to/shutters/app.py
 Restart=on-failure
 RestartSec=5
 
 # Point kscreen-doctor at the running Wayland/KDE session
-Environment=WAYLAND_DISPLAY=/run/user/1000/wayland-0
-Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+Environment=WAYLAND_DISPLAY=/run/user/%U/wayland-0
+Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/%U/bus
 
 # Override these to match your setup
 Environment=MONITOR_OUTPUT=DP-1

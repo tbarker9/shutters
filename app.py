@@ -9,11 +9,12 @@ MONITOR_OUTPUT = os.environ.get("MONITOR_OUTPUT", "DP-1")
 PORT = int(os.environ.get("PORT", 5000))
 HOST = os.environ.get("HOST", "0.0.0.0")
 
+_uid = os.getuid()
 KSCREEN_ENV = {
     **os.environ,
-    "WAYLAND_DISPLAY": os.environ.get("WAYLAND_DISPLAY", "/run/user/1000/wayland-0"),
+    "WAYLAND_DISPLAY": os.environ.get("WAYLAND_DISPLAY", f"/run/user/{_uid}/wayland-0"),
     "DBUS_SESSION_BUS_ADDRESS": os.environ.get(
-        "DBUS_SESSION_BUS_ADDRESS", "unix:path=/run/user/1000/bus"
+        "DBUS_SESSION_BUS_ADDRESS", f"unix:path=/run/user/{_uid}/bus"
     ),
 }
 
