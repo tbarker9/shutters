@@ -42,7 +42,7 @@ Wants=graphical-session.target
 [Service]
 Type=simple
 WorkingDirectory=$SCRIPT_DIR
-ExecStart=$SCRIPT_DIR/.venv/bin/python $SCRIPT_DIR/app.py
+ExecStart=$SCRIPT_DIR/.venv/bin/shutters
 Restart=on-failure
 RestartSec=5
 

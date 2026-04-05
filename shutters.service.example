@@ -6,7 +6,7 @@ Wants=graphical-session.target
 [Service]
 Type=simple
 WorkingDirectory=%h/path/to/shutters
-ExecStart=%h/path/to/shutters/.venv/bin/python %h/path/to/shutters/app.py
+ExecStart=%h/path/to/shutters/.venv/bin/shutters
 Restart=on-failure
 RestartSec=5
 

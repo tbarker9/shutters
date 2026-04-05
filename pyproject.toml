@@ -5,3 +5,6 @@ requires-python = ">=3.11"
 dependencies = [
     "flask",
 ]
+
+[project.scripts]
+shutters = "app:main"
